@@ -138,7 +138,7 @@ extension ViewController: UITableViewDataSource  , UITableViewDelegate {
       } catch let error as NSError {
         
         print("Could not save. \(error), \(error.userInfo)")
-      }
+        }
 
         // RELOADING THE TABLE WHEN THE ATTRIBUTE IS DELETED
         
