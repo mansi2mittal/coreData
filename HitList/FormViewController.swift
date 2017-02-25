@@ -31,19 +31,21 @@ class FormViewController: UIViewController {
   
   var selectedMode : mode = .profileMode
   
+  // OUTLETS
  
   @IBOutlet weak var formTableView: UITableView!
   
   @IBOutlet weak var editButton: UIButton!
   
-
+  // MARK : VIEW LIFECYCLE
+  
     override func viewDidLoad() {
-        super.viewDidLoad()
+      super.viewDidLoad()
       
-      formTableView.delegate = self
-      formTableView.dataSource = self
+    formTableView.delegate = self
+    formTableView.dataSource = self
       
-      // REGISTERING THE NIB OF THE FORM TABLE VIEW CELL
+  // REGISTERING THE NIB OF THE FORM TABLE VIEW CELL
       
       let cellNib = UINib( nibName : "FormCellTableViewCell" , bundle : nil)
       
@@ -53,6 +55,7 @@ class FormViewController: UIViewController {
       
   }
   
+  // ON CLICKING THE EDIT BUTTON EDITING MODE WILL GET ON 
   
   @IBAction func editButtonTapped(_ sender: UIButton) {
   
@@ -60,7 +63,8 @@ class FormViewController: UIViewController {
     
   }
   
-
+  // FUNCTION TO HANDLE THE EDITING AND SAVING OF THE ATTRIBUTES
+  
   func doneButtonTapped(_ sender: Any){
     
   guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
@@ -160,6 +164,7 @@ class FormViewController: UIViewController {
     
   }
 
+ // MARK : EXTENSION OF TABLE VIEW DELEGATE AND TABLEVIEW DATASOURCE
 
 extension FormViewController : UITableViewDelegate , UITableViewDataSource
 {
@@ -177,6 +182,7 @@ extension FormViewController : UITableViewDelegate , UITableViewDataSource
     guard let cell = tableView.dequeueReusableCell(withIdentifier: "FormCellTableViewCellID") as? FormCellTableViewCell else{
       fatalError("Error Not Found")
     }
+     // IF THE USER WANTS TO ADD A NEW USER
     
      if selectedMode == .normalMode
       {
@@ -190,10 +196,11 @@ extension FormViewController : UITableViewDelegate , UITableViewDataSource
       cell.cellLabel.text = arrayOfLabels[indexPath.row]
       
     }
+    
+    // IF THE USER WANTS TO SEE THE ENTIRE PROFILE OF AN EXISTING USER
+    
       if selectedMode == .profileMode
       {
-        
-        
         editButton.isHidden = false
         editButton.isEnabled = true
         
@@ -219,6 +226,9 @@ extension FormViewController : UITableViewDelegate , UITableViewDataSource
         }
       
     }
+    
+    // APPENDING THE INDEXPATH OF EACH CELL CRAETED INSIDE THE INDEX ARRAY
+    
     self.index.append(indexPath)
     
     return cell

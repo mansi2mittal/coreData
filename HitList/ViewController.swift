@@ -113,6 +113,7 @@ extension ViewController: UITableViewDataSource  , UITableViewDelegate {
     self.navigationController?.pushViewController(pushedPage, animated: true)
     }
   
+  // FUNCTION TO DELETE THE ATTRIBUTE OF THE ENTITY
   
   func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
     
