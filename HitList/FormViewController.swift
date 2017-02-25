@@ -17,6 +17,10 @@ class FormViewController: UIViewController {
   
   var index : [IndexPath?] = []
   
+  var selectedPerson : Person!
+  
+  var selectedMode : mode = .editmode
+  
  
   @IBOutlet weak var formTableView: UITableView!
   
@@ -36,8 +40,10 @@ class FormViewController: UIViewController {
       
       formTableView.register(cellNib , forCellReuseIdentifier : "FormCellTableViewCellID")
       
-      navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonTapped)
-      )
+      navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonTapped))
+      
+      
+      
     }
   
   func doneButtonTapped(_ sender: Any){
@@ -90,12 +96,7 @@ class FormViewController: UIViewController {
     guard  let homePage = self.storyboard?.instantiateViewController(withIdentifier: "ViewControllerID") as? ViewController else{ fatalError(" not found ")}
     
     self.navigationController?.pushViewController(homePage, animated: true)
-    
-   
-    
-   
-
-  }
+    }
     
   }
 
@@ -117,7 +118,36 @@ extension FormViewController : UITableViewDelegate , UITableViewDataSource
       fatalError("Error Not Found")
     }
     
-   cell.cellLabel.text = arrayOfLabels[indexPath.row]
+     if selectedMode == .normalMode
+      
+     {
+    
+      cell.cellLabel.text = arrayOfLabels[indexPath.row]
+      
+    }
+      if selectedMode == .editmode
+      {
+      
+      cell.cellLabel.text = arrayOfLabels[indexPath.row]
+      
+      switch(indexPath.row)
+      {
+      case 0: cell.cellTextField.text = selectedPerson.name
+        
+      case 1: cell.cellTextField.text = selectedPerson.email
+        
+      case 2: cell.cellTextField.text = selectedPerson.mobile
+        
+      case 3: cell.cellTextField.text = selectedPerson.gender
+      
+      case 4: cell.cellTextField.text = selectedPerson.age
+        
+      default: cell.cellTextField.text = ""
+        
+        
+        }
+      
+    }
   
     self.index.append(indexPath)
     
@@ -127,5 +157,6 @@ extension FormViewController : UITableViewDelegate , UITableViewDataSource
   func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
     return 100
   }
+  
 
 }

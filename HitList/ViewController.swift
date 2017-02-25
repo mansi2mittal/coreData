@@ -4,22 +4,34 @@ import UIKit
 import CoreData
 
 class ViewController: UIViewController {
+  
+  // OUTLETS
 
   @IBOutlet weak var tableView: UITableView!
   
+  // ARRAY TO STORE EACH ATTRIBUTE OF THE PERSON ENTITY
+  
   var people: [Person] = []
 
+  // MARK : VIEW LIFECYCLE
+  
   override func viewDidLoad() {
     super.viewDidLoad()
 
     title = "The List"
     
+    // ASSIGNING THE DATASOURCE AND DELEGATE TO SELF
+    
     tableView.delegate = self
     tableView.dataSource = self
     
     tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
+    
+    self.tableView.allowsMultipleSelectionDuringEditing = false
   }
-
+  
+   //  WILL EXECUTE EVERYTIME WHEN THE VIEW ISN ABOUT TO APPEAR
+  
   override func viewWillAppear(_ animated: Bool) {
     
     super.viewWillAppear(animated)
@@ -46,6 +58,8 @@ class ViewController: UIViewController {
     
   }
 
+  // FUNCTION TO HANDLE THE TAP ON THE PLUS BUTTON TO ADD MORE NAMES
+  
   @IBAction func addName(_ sender: UIBarButtonItem) {
     
     let form = self.storyboard?.instantiateViewController(withIdentifier: "FormViewControllerID") as! FormViewController
@@ -53,40 +67,16 @@ class ViewController: UIViewController {
      UIView.animate(withDuration: 0.1 , delay: 0.0, options: .curveEaseInOut, animations:
       {  self.navigationController?.pushViewController(form, animated: true)
     }, completion:nil )
+    
+    // SETTING THE MODE AS NORMAL VIEW MODE
+    
+    form.selectedMode = .normalMode
 
 }
 
-  func save(name: String) {
-    
-    guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-      return
-    }
+ }
 
-    let managedContext = appDelegate.persistentContainer.viewContext
-
-    let entity = NSEntityDescription.entity(forEntityName: "Person",
-                                            in: managedContext)!
-
-    let person = Person(entity: entity,
-                                 insertInto: managedContext)
-
-    person.name = name
-
-    do {
-      try managedContext.save()
-      
-      people.append(person)
-    
-    } catch let error as NSError {
-    
-      print("Could not save. \(error), \(error.userInfo)")
-    
-    }
-    
-  }
-}
-
-// MARK: - UITableViewDataSource
+// MARK: - UITableViewDataSource AND UITABLEVIEW DATASOURCE
 
 extension ViewController: UITableViewDataSource  , UITableViewDelegate {
 
@@ -106,4 +96,61 @@ extension ViewController: UITableViewDataSource  , UITableViewDelegate {
  
   }
   
+  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    
+    // PUSHING TO THE VIEW PROFILE PAGE
+    
+    guard  let pushedPage = self.storyboard?.instantiateViewController(withIdentifier: "FormViewControllerID") as? FormViewController else { fatalError(" page not found")}
+    
+    // SETTING THE MODE TO PROFILE MODE
+    
+    pushedPage.selectedMode = .profileMode
+    
+    // SETTING THE SELECTED CELL TO THE CELL THAT IS BEEN SEEN AS A PROFILE
+    
+    pushedPage.selectedPerson = people[indexPath.row]
+      
+    self.navigationController?.pushViewController(pushedPage, animated: true)
+    }
+  
+  
+  func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    
+    guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+      return }
+      
+      let managedContext = appDelegate.persistentContainer.viewContext
+    
+    // IF DELETE GESTURE IS MADE THEN THE ATTRIBUTE IS TO BE DELETED
+
+      if editingStyle == .delete {
+      
+      let person = people[indexPath.row]
+      
+      people.remove(at: indexPath.row )
+      
+      managedContext.delete(person)
+      
+      do {
+        
+        try managedContext.save()
+
+      } catch let error as NSError {
+        
+        print("Could not save. \(error), \(error.userInfo)")
+      }
+
+        // RELOADING THE TABLE WHEN THE ATTRIBUTE IS DELETED
+        
+      self.tableView.reloadData()
+    }
+  }
 }
+
+enum mode
+{
+  case editmode
+  case normalMode
+  case profileMode
+}
+

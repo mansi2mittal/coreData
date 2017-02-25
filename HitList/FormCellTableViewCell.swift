@@ -19,16 +19,6 @@ class FormCellTableViewCell: UITableViewCell {
         // Initialization code
     }
 
-  /*  func poplulateWithData()
-    {
-      func configureWithData(_ Profile : [String : String])
-      {
-        cellLabel.text =  Profile ["NameLabel"]
-        cellTextField.text =  
-        
-      }  }
- */
-
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
