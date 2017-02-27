@@ -68,7 +68,7 @@ class FormViewController: UIViewController {
     
     let managedContext = appDelegate.persistentContainer.viewContext
     
-    // ADDING THE TEXT ENTERED TO THE CORE DATA ON THE CLICK OF THE DONE BUTTON
+    // ADDING THE TEXT ENTERED  TO THE CORE DATA ON THE CLICK OF THE DONE BUTTON
     
     if selectedMode == .normalMode
     {

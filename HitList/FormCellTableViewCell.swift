@@ -10,6 +10,8 @@ import UIKit
 
 class FormCellTableViewCell: UITableViewCell {
   
+  // OUTLETS
+  
   @IBOutlet weak var cellLabel: UILabel!
   
   @IBOutlet weak var cellTextField: UITextField!

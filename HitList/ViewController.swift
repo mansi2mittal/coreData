@@ -15,7 +15,7 @@ class ViewController: UIViewController {
 
   // MARK : VIEW LIFECYCLE
   
-  override func viewDidLoad() {
+   override func viewDidLoad() {
     super.viewDidLoad()
 
     title = "The List"
@@ -28,11 +28,11 @@ class ViewController: UIViewController {
     tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
     
     self.tableView.allowsMultipleSelectionDuringEditing = false
-  }
+   }
   
    //  WILL EXECUTE EVERYTIME WHEN THE VIEW IS ABOUT TO APPEAR
   
-  override func viewWillAppear(_ animated: Bool) {
+   override func viewWillAppear(_ animated: Bool) {
     
     super.viewWillAppear(animated)
 
@@ -68,7 +68,7 @@ class ViewController: UIViewController {
     
     let form = self.storyboard?.instantiateViewController(withIdentifier: "FormViewControllerID") as! FormViewController
     
-     UIView.animate(withDuration: 0.01 , delay: 0.0, options: .curveEaseInOut, animations:
+     UIView.animate(withDuration: 0.01 , delay: 0.0, options: .curveLinear, animations:
       
       {  self.navigationController?.pushViewController(form, animated: true) }, completion:nil )
     
@@ -80,9 +80,9 @@ class ViewController: UIViewController {
 
      }
 
-// MARK: - UITableViewDataSource AND UITABLEVIEW DATASOURCE
+ // MARK: - UITableViewDataSource AND UITABLEVIEW DATASOURCE
 
-extension ViewController: UITableViewDataSource  , UITableViewDelegate {
+ extension ViewController: UITableViewDataSource  , UITableViewDelegate {
   
   // FUNCTION RETURNING THE NUMBER OF ROWS IN SECTION
 
@@ -195,10 +195,10 @@ extension ViewController: UITableViewDataSource  , UITableViewDelegate {
 // EDIT MODE -> EDITING THE VALUES OF THE CURRENT USER
 // PROFILE MODE -> VIEWING THE INFORMATION OF THE USER
 
-enum mode
-{
+ enum mode
+ {
   case editmode
   case normalMode
   case profileMode
-}
+ }
 
