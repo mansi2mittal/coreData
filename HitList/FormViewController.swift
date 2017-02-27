@@ -128,7 +128,7 @@ class FormViewController: UIViewController {
         fatalError(" cell not found")
       }
       
-      let managedContext = appDelegate.persistentContainer.viewContext
+      //let managedContext = appDelegate.persistentContainer.viewContext
       
       for indices in index.indices{
         
@@ -227,7 +227,7 @@ extension FormViewController : UITableViewDelegate , UITableViewDataSource
       
     }
     
-    // APPENDING THE INDEXPATH OF EACH CELL CRAETED INSIDE THE INDEX ARRAY
+    // APPENDING THE INDEXPATH OF EACH CELL CREATED INSIDE THE INDEX ARRAY
     
     self.index.append(indexPath)
     

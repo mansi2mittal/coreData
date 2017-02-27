@@ -30,7 +30,7 @@ class ViewController: UIViewController {
     self.tableView.allowsMultipleSelectionDuringEditing = false
   }
   
-   //  WILL EXECUTE EVERYTIME WHEN THE VIEW ISN ABOUT TO APPEAR
+   //  WILL EXECUTE EVERYTIME WHEN THE VIEW IS ABOUT TO APPEAR
   
   override func viewWillAppear(_ animated: Bool) {
     
