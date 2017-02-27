@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0C3B1E0D1E640A510095FF73 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C3B1E0C1E640A510095FF73 /* FBSDKLoginKit.framework */; };
 		0CD99F7A1E604F3B00DE1E28 /* FormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CD99F791E604F3B00DE1E28 /* FormViewController.swift */; };
 		0CD99F7D1E60587B00DE1E28 /* FormCellTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CD99F7B1E60587B00DE1E28 /* FormCellTableViewCell.swift */; };
 		0CD99F7E1E60587B00DE1E28 /* FormCellTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0CD99F7C1E60587B00DE1E28 /* FormCellTableViewCell.xib */; };
@@ -41,7 +40,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0C3B1E0C1E640A510095FF73 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		0CD99F791E604F3B00DE1E28 /* FormViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormViewController.swift; sourceTree = "<group>"; };
 		0CD99F7B1E60587B00DE1E28 /* FormCellTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormCellTableViewCell.swift; sourceTree = "<group>"; };
 		0CD99F7C1E60587B00DE1E28 /* FormCellTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FormCellTableViewCell.xib; sourceTree = "<group>"; };
@@ -68,7 +66,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0C3B1E0D1E640A510095FF73 /* FBSDKLoginKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -117,7 +114,6 @@
 				CAF020141E60432200662D6E /* Person+CoreDataClass.swift */,
 				0CD99F791E604F3B00DE1E28 /* FormViewController.swift */,
 				0CD99F811E605A5A00DE1E28 /* Person+CoreDataProperties.swift */,
-				0C3B1E0C1E640A510095FF73 /* FBSDKLoginKit.framework */,
 				FEA624501D6A29610011CF8F /* AppDelegate.swift */,
 				0CD99F7B1E60587B00DE1E28 /* FormCellTableViewCell.swift */,
 				0CD99F7C1E60587B00DE1E28 /* FormCellTableViewCell.xib */,
