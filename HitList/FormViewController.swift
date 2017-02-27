@@ -177,21 +177,21 @@ class FormViewController: UIViewController {
  // MARK : EXTENSION OF TABLE VIEW DELEGATE AND TABLEVIEW DATASOURCE
 
 extension FormViewController : UITableViewDelegate , UITableViewDataSource
-{
-  // FUNCTION RETURNING THE NUMBER OF ROWS IN TABLEVIEW
+ {
+   // FUNCTION RETURNING THE NUMBER OF ROWS IN TABLEVIEW
   
-  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     
     return arrayOfLabels.count
-  }
+   }
   
-  // FUNCTION TO RETURN THE CELL AT A PARTICULAR INDEXPATH
+   // FUNCTION TO RETURN THE CELL AT A PARTICULAR INDEXPATH
   
-  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     
     
-    guard let cell = tableView.dequeueReusableCell(withIdentifier: "FormCellTableViewCellID") as? FormCellTableViewCell else{
-      fatalError("Error Not Found")
+     guard let cell = tableView.dequeueReusableCell(withIdentifier: "FormCellTableViewCellID") as? FormCellTableViewCell else{
+       fatalError("Error Not Found")
       
     }
      // IF THE USER WANTS TO ADD A NEW USER
