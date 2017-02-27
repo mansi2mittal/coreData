@@ -41,8 +41,12 @@ class ViewController: UIViewController {
     }
 
     let managedContext = appDelegate.persistentContainer.viewContext
+    
+    // CREATING A FETCH REQUEST TO FETCH THE DATA OF THE DATABASE EVEYTIME THE PAGE IS LOADED
 
     let fetchRequest : NSFetchRequest<Person> = Person.fetchRequest()
+    
+    // RELOADING THE TABLE
     
     tableView.reloadData()
     
@@ -64,7 +68,8 @@ class ViewController: UIViewController {
     
     let form = self.storyboard?.instantiateViewController(withIdentifier: "FormViewControllerID") as! FormViewController
     
-     UIView.animate(withDuration: 0.1 , delay: 0.0, options: .curveEaseInOut, animations:
+     UIView.animate(withDuration: 0.01 , delay: 0.0, options: .curveEaseInOut, animations:
+      
       {  self.navigationController?.pushViewController(form, animated: true)
     }, completion:nil )
     
@@ -79,22 +84,29 @@ class ViewController: UIViewController {
 // MARK: - UITableViewDataSource AND UITABLEVIEW DATASOURCE
 
 extension ViewController: UITableViewDataSource  , UITableViewDelegate {
+  
+  // FUNCTION RETURNING THE NUMBER OF ROWS IN SECTION
 
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     return people.count
   }
+  
+  // FUNCTION RETURNING THE CELL
 
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    
+     let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
 
     let person = people[indexPath.row]
     
-    let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+    // SETTING THE TEXT OF THE CELL AS THE NAME OF THE ENTITY
     
     cell.textLabel?.text = person.name
     
     return cell
  
   }
+  // FUNCTION TO GET THE SELECTED CELL
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     
@@ -113,40 +125,68 @@ extension ViewController: UITableViewDataSource  , UITableViewDelegate {
     self.navigationController?.pushViewController(pushedPage, animated: true)
     }
   
-  // FUNCTION TO DELETE THE ATTRIBUTE OF THE ENTITY
+  // FUNCTION TO ADD EDIT AND DELETE BUTTON ON THE LEFT SWIPE OF THE CELL
   
-  func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+  func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]?
+  {
     
-    guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-      return }
+    // ADDING THE EDIT BUTTON
+    
+    let edit = UITableViewRowAction(style: .normal,title: "EDIT",handler: {(action: UITableViewRowAction,index: IndexPath) -> Void in
+
+    guard let editPage = self.storyboard?.instantiateViewController(withIdentifier: "FormViewControllerID") as? FormViewController else { fatalError("  Not found")}
+    
+    // SETTING THE MODE TO PROFILE MODE
+    
+    editPage.selectedMode = .editmode
+    
+    // SETTING THE SELECTED CELL TO THE CELL THAT IS BEEN SEEN AS A PROFILE
+    
+    editPage.selectedPerson = self.people[indexPath.row]
+    
+      self.navigationController?.pushViewController(editPage, animated: true) })
+    
+    // SPECIFYING THE ACTION FOR THE DELETE SWIPE BUTTON
+  
+    let delete = UITableViewRowAction(style: .destructive, title: "DELETE", handler: {(action : UITableViewRowAction, index : IndexPath) -> Void  in
+      
+      guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+        return
+      }
       
       let managedContext = appDelegate.persistentContainer.viewContext
-    
-    // IF DELETE GESTURE IS MADE THEN THE ATTRIBUTE IS TO BE DELETED
-
-      if editingStyle == .delete {
       
-      let person = people[indexPath.row]
+      let person = self.people[indexPath.row]
       
-      people.remove(at: indexPath.row )
+      self.people.remove(at: indexPath.row )
       
       managedContext.delete(person)
       
       do {
         
         try managedContext.save()
-
+        
       } catch let error as NSError {
         
         print("Could not save. \(error), \(error.userInfo)")
-        }
-
-        // RELOADING THE TABLE WHEN THE ATTRIBUTE IS DELETED
-        
+      }
+      
+      // RELOADING THE TABLE WHEN THE ATTRIBUTE IS DELETED
+      
       self.tableView.reloadData()
-    }
+    })
+    
+    return [edit,delete]
+    
+
   }
+  
 }
+
+// ENUM TAKEN TO SPECIFY WHETHER THE USER IS IN
+// NORMAL -> ADDING THE NEW USER
+// EDIT MODE -> EDITING THE VALUES OF THE CURRENT USER
+// PROFILE MODE -> VIEWING THE INFORMATION OF THE USER
 
 enum mode
 {

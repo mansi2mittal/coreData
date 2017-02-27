@@ -35,8 +35,6 @@ class FormViewController: UIViewController {
  
   @IBOutlet weak var formTableView: UITableView!
   
-  @IBOutlet weak var editButton: UIButton!
-  
   // MARK : VIEW LIFECYCLE
   
     override func viewDidLoad() {
@@ -53,15 +51,12 @@ class FormViewController: UIViewController {
       
       navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonTapped))
       
+  // MAKING THE TABLEVIEW CELLS AS NON SELECTABLE
+      
+       formTableView.allowsSelection = false
+      
   }
   
-  // ON CLICKING THE EDIT BUTTON EDITING MODE WILL GET ON 
-  
-  @IBAction func editButtonTapped(_ sender: UIButton) {
-  
-    selectedMode = .editmode
-    
-  }
   
   // FUNCTION TO HANDLE THE EDITING AND SAVING OF THE ATTRIBUTES
   
@@ -73,6 +68,8 @@ class FormViewController: UIViewController {
     
     let managedContext = appDelegate.persistentContainer.viewContext
     
+    // ADDING THE TEXT ENTERED TO THE CORE DATA ON THE CLICK OF THE DONE BUTTON
+    
     if selectedMode == .normalMode
     {
     
@@ -82,14 +79,15 @@ class FormViewController: UIViewController {
     let person = Person(entity: entity,
                         insertInto: managedContext)
     
-    
+    // TRAVESRSING THE ARRAY OF THE STORED CELLS OF THE TEXTFIELDS THAT HAS BEEN GENERATED
     
     for indices in index.indices {
     
       guard let cell = formTableView.cellForRow(at: index[indices]!) as? FormCellTableViewCell  else { fatalError(" Cell Not Found")
       }
     
-    
+    // RETREIVING THE VALUES OF THE TEXT FIELDS ENTERED BY THE USER
+      
     switch(indices){
       
     case 0 : person.name = cell.cellTextField.text
@@ -107,8 +105,14 @@ class FormViewController: UIViewController {
     }
       }
       
-      do {
-        try managedContext.save()
+      do
+      {
+        
+      // SAVING THE DATA TO THE CORE DATA
+        
+      try managedContext.save()
+        
+      // APPENDING THE NEW USER TO THE PEOPLE ARRAY
         
         people.append(person)
         
@@ -116,10 +120,9 @@ class FormViewController: UIViewController {
         
         print("Could not save. \(error), \(error.userInfo)")
       }
-      
-
-    
     }
+    
+    // WILL UPDATE THE EDITED TEXTFIELDS INTO THE DATABASE AND WILL RELOAD THE TABLE
     
     if selectedMode == .editmode
     {
@@ -128,11 +131,13 @@ class FormViewController: UIViewController {
         fatalError(" cell not found")
       }
       
-      //let managedContext = appDelegate.persistentContainer.viewContext
+    // TRAVESRSING THE ARRAY OF THE STORED CELLS OF THE TEXTFIELDS THAT HAS BEEN GENERATED
       
       for indices in index.indices{
         
         guard let cell = formTableView.cellForRow(at: index[indices]!) as? FormCellTableViewCell  else { fatalError(" Cell Not Found") }
+        
+    // RETREIVING THE VALUES UPDATED IN THE TEXT FIELD AND UPDATING IT TO THE DATABASE
         
         switch(indices)
         {
@@ -152,12 +157,17 @@ class FormViewController: UIViewController {
         }
       }
       
+      // SAVING THE STATE OF THE APPDELEGATE
+      
       appDelegate.saveContext()
 
     }
     
+    // INSTANTIATING THE HOME PAGE
     
     guard  let homePage = self.storyboard?.instantiateViewController(withIdentifier: "ViewControllerID") as? ViewController else{ fatalError(" not found ")}
+    
+    // PUSHING THE HOME PAGE
     
     self.navigationController?.pushViewController(homePage, animated: true)
     }
@@ -174,6 +184,7 @@ extension FormViewController : UITableViewDelegate , UITableViewDataSource
     
     return arrayOfLabels.count
   }
+  
   // FUNCTION TO RETURN THE CELL AT A PARTICULAR INDEXPATH
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -181,16 +192,13 @@ extension FormViewController : UITableViewDelegate , UITableViewDataSource
     
     guard let cell = tableView.dequeueReusableCell(withIdentifier: "FormCellTableViewCellID") as? FormCellTableViewCell else{
       fatalError("Error Not Found")
+      
     }
      // IF THE USER WANTS TO ADD A NEW USER
     
      if selectedMode == .normalMode
       {
         
-      editButton.isHidden = true
-        
-      editButton.isEnabled = false
-      
       title = "Please Enter Values"
       
       cell.cellLabel.text = arrayOfLabels[indexPath.row]
@@ -201,10 +209,8 @@ extension FormViewController : UITableViewDelegate , UITableViewDataSource
     
       if selectedMode == .profileMode
       {
-        editButton.isHidden = false
-        editButton.isEnabled = true
         
-        title = "Edit The Values"
+        title = "USER PROFILE"
       
       cell.cellLabel.text = arrayOfLabels[indexPath.row]
       
@@ -224,6 +230,38 @@ extension FormViewController : UITableViewDelegate , UITableViewDataSource
         
         
         }
+        
+      cell.cellTextField.isUserInteractionEnabled = false
+       
+      
+    }
+    
+    // IF THE USER WANTS TO EDIT THE DETAILS OF A PARTICULAR USER
+    
+    if selectedMode == .editmode
+    {
+      
+      title = " EDIT THE VALUES"
+      
+      cell.cellLabel.text = arrayOfLabels[indexPath.row]
+      
+      switch(indexPath.row)
+      {
+      case 0: cell.cellTextField.text = selectedPerson.name
+        
+      case 1: cell.cellTextField.text = selectedPerson.email
+        
+      case 2: cell.cellTextField.text = selectedPerson.mobile
+        
+      case 3: cell.cellTextField.text = selectedPerson.gender
+        
+      case 4: cell.cellTextField.text = selectedPerson.age
+        
+      default: cell.cellTextField.text = ""
+        
+        
+      }
+
       
     }
     
@@ -233,6 +271,7 @@ extension FormViewController : UITableViewDelegate , UITableViewDataSource
     
     return cell
 }
+  // FUNCTION RETURNING THE HEIGHT OF THE ROW
   
   func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
     return 100

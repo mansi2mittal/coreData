@@ -68,14 +68,6 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="FYj-0v-uhA">
                                 <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <button key="tableFooterView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="jb1-oe-zJD">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="30"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <state key="normal" title="EDIT"/>
-                                    <connections>
-                                        <action selector="editButtonTapped:" destination="cJE-Ht-tmU" eventType="touchUpInside" id="8hQ-ip-0Xi"/>
-                                    </connections>
-                                </button>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -89,7 +81,6 @@
                     <toolbarItems/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="editButton" destination="jb1-oe-zJD" id="Jna-Wv-v3S"/>
                         <outlet property="formTableView" destination="FYj-0v-uhA" id="yjs-KU-aDl"/>
                     </connections>
                 </viewController>
